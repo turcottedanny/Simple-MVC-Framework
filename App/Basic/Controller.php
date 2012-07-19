@@ -9,4 +9,9 @@ class Controller extends BaseController
     {
         $this->view->addParameter('name', 'Vikie');
     }
+
+    public function allo()
+    {
+        $this->view->setTemplate('index');
+    }
 }

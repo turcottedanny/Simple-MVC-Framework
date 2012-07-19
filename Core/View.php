@@ -32,4 +32,8 @@ class View
         $this->parameters[$name] = $value;
     }
 
+    public function addParameters($params)
+    {
+        $this->parameters = array_merge($this->parameters, $params);
+    }
 }

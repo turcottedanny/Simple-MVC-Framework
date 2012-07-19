@@ -7,6 +7,7 @@ class Route
     protected $url;
     protected $module;
     protected $action_name;
+    protected $params = array();
 
     public function __construct($url, $module, $action_name)
     {
@@ -17,7 +18,30 @@ class Route
 
     public function matches($url)
     {
-        return true;
+        if ($this->url == $url && strpos(':', $this->url) === false) {
+            return true;
+        }
+
+        $route = explode('/', $this->url);
+        $url = explode('/', $url);
+        $matches = 0;
+
+        foreach ($route as $index => $expr) {
+            if ($expr && $expr[0] == ':') {
+                $this->params[substr($expr, 1)] = $url[$index];
+                $matches++;
+            } elseif ($expr == $url[$index]) {
+                $matches++;
+            }
+
+        }
+
+        return $matches == count($url);
+    }
+
+    public function getParams()
+    {
+        return $this->params;
     }
 
     public function getAction()

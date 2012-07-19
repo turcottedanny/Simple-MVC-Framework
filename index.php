@@ -10,5 +10,5 @@ include('Core/autoload.php');
 $router = new Simple\Core\Router();
 
 $router->addRoute(new Simple\Core\Route('/', 'basic', 'index'));
-
+$router->addRoute(new Simple\Core\Route('/:name', 'basic', 'allo'));
 $router->execute();

@@ -15,7 +15,10 @@ class Router
 
     protected function _init()
     {
-        $this->url = '';
+        $base_paths = explode('/', $_SERVER['SCRIPT_NAME']);
+        array_pop($base_paths);
+
+        $this->url = str_replace(implode('/', $base_paths), '', $_SERVER['REQUEST_URI']);
     }
 
     public function addRoute(Route $route)
@@ -36,10 +39,16 @@ class Router
     {
         $matched_route = $this->findRoute();
 
+        if (!$matched_route) {
+            header('404 Not found');
+            die('Not found');
+        }
+
         $controller = $matched_route->getController();
         $action = $matched_route->getAction();
 
         $view = new View($matched_route->getModule());
+        $view->addParameters($matched_route->getParams());
         $view->setTemplate($action);
 
         $controller->setView($view);
