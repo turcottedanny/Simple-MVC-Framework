@@ -1,14 +1,16 @@
 <?php
-ini_set('display_errors', true);
-error_reporting(E_ALL);
 
-define('PATH_BASE', dirname(__FILE__));
+//Setting the config
+require_once('config.php');
 
-include('Core/autoload.php');
+//Autoload that follows PSR-0
+require_once('Core/autoload.php');
 
-
+//Instantiate the router
 $router = new Simple\Core\Router();
 
-$router->addRoute(new Simple\Core\Route('/', 'basic', 'index'));
-$router->addRoute(new Simple\Core\Route('/:name', 'basic', 'allo'));
+//Addind routes to the router
+require_once('routes.php');
+
+//Executing the router, it will match the current url to a route and execute the corresponding controller
 $router->execute();
